@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,22 +8,30 @@ generator client {
 }
 
 model User {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @default(uuid())
   password String
   accounts Account[]
 }
 
 model Account {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  userId   String @db.ObjectId
+  id       String   @id @default(uuid())
+  userId   String
   type     String
   balance  Float
   history  PaymentHistory[]
 }
 
 model PaymentHistory {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  accountId String @db.ObjectId
+  id        String   @id @default(uuid())
+  accountId String
   amount    Float
   timestamp DateTime @default(now())
+}
+
+model Transaction {
+  id         String   @id @default(uuid())
+  amount     Float
+  timestamp  DateTime @default(now())
+  toAddress  String
+  status     String
 }

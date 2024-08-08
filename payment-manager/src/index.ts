@@ -4,11 +4,9 @@ import { PrismaClient } from "@prisma/client";
 const fastify = Fastify({ logger: true });
 const prisma = new PrismaClient();
 
-fastify.register(require("./routes/userRoutes"));
-fastify.register(require("./routes/accountRoutes"));
-fastify.register(require("./routes/paymentHistoryRoutes"));
+fastify.register(require("./routes/transactionRoutes"));
 
-fastify.listen(3001, (err, address) => {
+fastify.listen(3002, (err, address) => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);
