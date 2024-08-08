@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: mydatabase
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  account-manager:
+    build: ./account-manager
+    container_name: account-manager
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    environment:
+      DATABASE_URL: mongodb://admin:password@mongo:27017/mydatabase
+
+  payment-manager:
+    build: ./payment-manager
+    container_name: payment-manager
+    ports:
+      - "3002:3002"
+    depends_on:
+      - mongo
+    environment:
+      DATABASE_URL: mongodb://admin:password@mongo:27017/mydatabase
+
+volumes:
+  mongo-data:
