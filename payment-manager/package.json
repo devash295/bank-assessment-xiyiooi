@@ -14,7 +14,8 @@
   "dependencies": {
     "@prisma/client": "^5.18.0",
     "@supabase/supabase-js": "^2.45.1",
-    "fastify": "^4.28.1"
+    "fastify": "^4.28.1",
+    "fastify-swagger": "^5.2.0"
   },
   "devDependencies": {
     "@types/node": "^22.1.0",
